@@ -17,23 +17,25 @@ void init(void)
     GPIO_Init(PWM_R_PORT, PWM_R_PIN, GPIO_MODE_OUT_PP_LOW_SLOW); // inicializace RBG LED
     GPIO_Init(PWM_G_PORT, PWM_G_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
     GPIO_Init(PWM_B_PORT, PWM_B_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
-    GPIO_Init(S1_PORT, S1_PIN, GPIO_MODE_IN_PU_NO_IT);
+    GPIO_Init(S1_PORT, S1_PIN, GPIO_MODE_IN_PU_NO_IT); // inicializace tlačítek
     GPIO_Init(S2_PORT, S2_PIN, GPIO_MODE_IN_PU_NO_IT);
     GPIO_Init(S2_PORT, S2_PIN, GPIO_MODE_IN_PU_NO_IT);
 
-    TIM2_TimeBaseInit(TIM2_PRESCALER_16, 10000-1); // inicializace časovače
+    TIM2_TimeBaseInit( // inicializace časovače
+    TIM2_PRESCALER_16, // nastavení předděličky
+    10000-1); // časová perioda
 
     TIM2_OC1Init(
-    TIM2_OCMODE_PWM1, // inicializace výstupního kanálu
-    TIM2_OUTPUTSTATE_ENABLE,
-    5000,
-    TIM2_OCPOLARITY_HIGH
+    TIM2_OCMODE_PWM1, // inicializace výstupního kanálu, jeho režim
+    TIM2_OUTPUTSTATE_ENABLE, // kanál povolen, může generovat signál
+    5000, // délka periody
+    TIM2_OCPOLARITY_HIGH // polarita, log 1 při aktivním stavu
     );
 
     TIM2_OC2Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, 5000, TIM2_OCPOLARITY_HIGH);
     TIM2_OC3Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, 5000, TIM2_OCPOLARITY_HIGH);
 
-    TIM2_OC1PreloadConfig(ENABLE);
+    TIM2_OC1PreloadConfig(ENABLE); // povolení přednačítání hodnot pro výstupní komparátor
     TIM2_OC2PreloadConfig(ENABLE);
     TIM2_OC3PreloadConfig(ENABLE);
 
