@@ -23,12 +23,12 @@ void init(void)
 
     TIM2_TimeBaseInit( // inicializace časovače
     TIM2_PRESCALER_16, // nastavení předděličky
-    10000-1); // časová perioda
+    10000-1); // hodnota pro ARR - časová perioda
 
     TIM2_OC1Init(
     TIM2_OCMODE_PWM1, // inicializace výstupního kanálu, jeho režim
     TIM2_OUTPUTSTATE_ENABLE, // kanál povolen, může generovat signál
-    5000, // délka periody
+    5000, // délka vysoké úrovně, počáteční hodnota CCR
     TIM2_OCPOLARITY_HIGH // polarita, log 1 při aktivním stavu
     );
 
