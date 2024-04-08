@@ -61,9 +61,9 @@ int main(void)
     // green - 2
     // blue - 3
 
-    bool stav_S1 = 0;
-    bool stav_S2 = 0;
-    bool stav_S3 = 0;
+    int stav_S1 = 0;
+    bool stav_S2 = false;
+    bool stav_S3 = false;
 
     TIM2_SetCompare1(r-1);
     TIM2_SetCompare2(g-1);
@@ -71,8 +71,50 @@ int main(void)
 
     while (1) {
 
+        if(milis() - time > 100) {
+            time = milis();
+            if (PUSH(S1) && stav_S1 == 0) {
+                HIGH(LED7);
+                stav_S1 = 1;
+                LOW(LED5);
+                LOW(LED8);
+                soucasny_stav = 1;
+            }
+            else if(PUSH(S1) && stav_S1 == 1) {
+                HIGH(LED5);
+                stav_S1 = 2;
+                LOW(LED7);
+                LOW(LED8);
+                soucasny_stav = 2;
+            }
+            else if (PUSH(S1) && stav_S1 == 2) {
+                HIGH(LED8);
+                stav_S1 = 0;
+                LOW(LED5);
+                LOW(LED7);
+                soucasny_stav = 3;
+            }
+        }
 
-        if(milis() - time > 333) {
+        switch(soucasny_stav) {
+            case 1:
+
+            if(milis() - time > 100) {
+                if(PUSH(S2) && (r <= 10000)) {
+                    r += 3333;
+                }
+            } 
+
+            case 2:
+
+            case 3:
+
+            default:
+                break;
+        }
+
+
+        /*if(milis() - time > 333) {
             if(PUSH(S1)) {
             stav_S1 = 1;
         }
@@ -80,8 +122,37 @@ int main(void)
         {
             if (stav_S1 == 1) {
                 REVERSE(LED7);
+                soucasny_stav = 1;
             }
             stav_S1 = 0;
+        }
+        }
+
+        if(milis() - time > 333) {
+            if(PUSH(S2)) {
+            stav_S2 = 1;
+        }
+        else
+        {
+            if (stav_S2 == 1) {
+                REVERSE(LED5);
+                soucasny_stav = 1;
+            }
+            stav_S2 = 0;
+        }
+        }
+
+        if(milis() - time > 333) {
+            if(PUSH(S3)) {
+            stav_S3 = 1;
+        }
+        else
+        {
+            if (stav_S3 == 1) {
+                REVERSE(LED8);
+                soucasny_stav = 1;
+            }
+            stav_S3 = 0;
         }
         }
 
@@ -106,14 +177,15 @@ int main(void)
         }
 
         if(milis() - time > 333) {
-            if(PUSH(S3)) {
+            if(PUSH(S3)) {))
+            } 
                 b += 1000;
                 if (b > 1000) {
                     b = 0;
                 }
                 TIM2_SetCompare3(b-1);
             }
-        }
+        }*/
     }
 
 }
